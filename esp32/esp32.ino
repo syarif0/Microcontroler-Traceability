@@ -12,13 +12,13 @@ DHTesp dht;
 const int led = 5;
 
 //---- WiFi settings
-const char* ssid = "Ciheulang";
-const char* password = "cihelang02";
+const char* ssid = "ssid";
+const char* password = "password";
 
 //---- HiveMQ Cloud Broker settings
-const char* mqtt_server = "a7b1a17d48894227b47e0467a6bd64e5.s1.eu.hivemq.cloud";
-const char* mqtt_username = "ESP_1A";
-const char* mqtt_password = "cobaESP1A";
+const char* mqtt_server = "host.s1.eu.hivemq.cloud";
+const char* mqtt_username = "credentials_username";
+const char* mqtt_password = "credentials_password";
 const int mqtt_port = 8883;
 
 WiFiClientSecure espClient;  
@@ -106,9 +106,7 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str(), mqtt_username, mqtt_password)) {
       Serial.println("connected!");
-      // Once connected, publish an announcement…
       client.publish("testTopic", "Hello World!");
-      // … and resubscribe
       client.subscribe("testTopic");
     } else {
       Serial.print("failed, rc = ");
@@ -132,7 +130,6 @@ void setup() {
   dht.setup(DHTpin, DHTesp::DHT22); //Set up DHT sensor
   pinMode(led, OUTPUT); //set up LED
 
-  // When opening the Serial Monitor, select 9600 Baud
   Serial.begin(9600);
   delay(500);
 
