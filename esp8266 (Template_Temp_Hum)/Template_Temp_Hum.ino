@@ -17,13 +17,13 @@ DHTesp dht;
 const int led = 5; //Set LED pin as GPIO5
 
 /****** WiFi Connection Details *******/
-const char* ssid = "Ciheulang";
+const char* ssid = "ssid";
 const char* password = "cihelang02";
 
 /******* MQTT Broker Connection Details *******/
-const char* mqtt_server = "a7b1a17d48894227b47e0467a6bd64e5.s1.eu.hivemq.cloud";
-const char* mqtt_username = "ESP_1A";
-const char* mqtt_password = "cobaESP1A";
+const char* mqtt_server = "hostserver.s1.eu.hivemq.cloud";
+const char* mqtt_username = "credentials_username";
+const char* mqtt_password = "credentials_password";
 const int mqtt_port =8883;
 
 /**** Secure WiFi Connectivity Initialisation *****/
@@ -92,7 +92,6 @@ void setup_wifi() {
 
 /************* Connect to MQTT Broker ***********/
 void reconnect() {
-  // Loop until we're reconnected
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     String clientId = "ESP8266Client-";   // Create a random client ID
@@ -101,12 +100,12 @@ void reconnect() {
     if (client.connect(clientId.c_str(), mqtt_username, mqtt_password)) {
       Serial.println("connected");
 
-      client.subscribe("led_state");   // subscribe the topics here
+      client.subscribe("led_state");
 
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");   // Wait 5 seconds before retrying
+      Serial.println(" try again in 5 seconds"); 
       delay(5000);
     }
   }
@@ -147,7 +146,7 @@ void setup() {
   #ifdef ESP8266
     espClient.setInsecure();
   #else
-    espClient.setCACert(root_ca);      // enable this line and the the "certificate" code for secure connection
+    espClient.setCACert(root_ca);    
   #endif
 
   client.setServer(mqtt_server, mqtt_port);
